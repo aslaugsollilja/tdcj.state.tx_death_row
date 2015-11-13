@@ -1,5 +1,3 @@
-#THIS IS 
-
 from bs4 import BeautifulSoup
 import requests
 import time
@@ -54,47 +52,47 @@ for inmate_link in inmates_links[:6]:
 
 				#Info from td elements
 				inmate_details['Photo'] = inmate_photo + inmate_profile_rows[0].findAll('td')[0].find('img')['src']
-				inmate_details['Name'] = inmate_profile_rows[0].findAll('td')[2].text.strip()
-				inmate_details['Number'] = inmate_profile_rows[1].findAll('td')[1].text.strip()
-				inmate_details['Date_of_birth'] = inmate_profile_rows[2].findAll('td')[1].text.strip()
-				inmate_details['Date_received'] = inmate_profile_rows[3].findAll('td')[1].text.strip()
-				inmate_details['Age_when_received'] = inmate_profile_rows[4].findAll('td')[1].text.strip()
-				inmate_details['Education_level'] = inmate_profile_rows[5].findAll('td')[1].text.strip()
-				inmate_details['Date_of_offence'] = inmate_profile_rows[6].findAll('td')[1].text.strip()
-				inmate_details['Age_of_offence'] = inmate_profile_rows[7].findAll('td')[2].text.strip()
-				inmate_details['County'] = inmate_profile_rows[8].findAll('td')[2].text.strip()
-				inmate_details['Race'] = inmate_profile_rows[9].findAll('td')[2].text.strip()
-				inmate_details['Gender'] = inmate_profile_rows[10].findAll('td')[2].text.strip()
-				inmate_details['Hair_color'] = inmate_profile_rows[11].findAll('td')[2].text.strip()
-				inmate_details['Height'] = inmate_profile_rows[12].findAll('td')[2].text.strip()
-				inmate_details['Weight'] = inmate_profile_rows[13].findAll('td')[2].text.strip()
-				inmate_details['Eye_color'] = inmate_profile_rows[14].findAll('td')[2].text.strip()
-				inmate_details['Native_county'] = inmate_profile_rows[15].findAll('td')[2].text.strip()
-				inmate_details['Native_state'] = inmate_profile_rows[16].findAll('td')[2].text.strip()
+				inmate_details['Name'] = inmate_profile_rows[0].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Number'] = inmate_profile_rows[1].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Date_of_birth'] = inmate_profile_rows[2].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Date_received'] = inmate_profile_rows[3].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Age_when_received'] = inmate_profile_rows[4].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Education_level'] = inmate_profile_rows[5].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Date_of_offence'] = inmate_profile_rows[6].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['Age_of_offence'] = inmate_profile_rows[7].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['County'] = inmate_profile_rows[8].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Race'] = inmate_profile_rows[9].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Gender'] = inmate_profile_rows[10].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Hair_color'] = inmate_profile_rows[11].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Height'] = inmate_profile_rows[12].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Weight'] = inmate_profile_rows[13].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Eye_color'] = inmate_profile_rows[14].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Native_county'] = inmate_profile_rows[15].findAll('td')[2].text.encode('utf-8').strip()
+				inmate_details['Native_state'] = inmate_profile_rows[16].findAll('td')[2].text.encode('utf-8').strip()
 				
 				#Info from span elements
 				try: 
-					inmate_details['Prior_occupation'] = inmate_profile_span[1].text.strip().splitlines()[1]
+					inmate_details['Prior_occupation'] = inmate_profile_span[1].text.encode('utf-8').strip().splitlines()[1]
 				except IndexError:
 					inmate_details['Prior_occupation'] = "no info"
 
 				try:
-					inmate_details['Prior_prision_record'] = inmate_profile_span[2].text.strip().splitlines()[1]
+					inmate_details['Prior_prision_record'] = inmate_profile_span[2].text.encode('utf-8').strip().splitlines()[1]
 				except IndexError:
 					inmate_details['Prior_prision_record'] = 'no info'
 
 				try:
-					inmate_details['Summary_of_incedent'] = inmate_profile_span[3].text.strip().splitlines()[1]
+					inmate_details['Summary_of_incedent'] = inmate_profile_span[3].text.encode('utf-8').strip().splitlines()[1]
 				except IndexError:
 					inmate_details['Summary_of_incedent'] = 'no info'
 
 				try:
-					inmate_details['Co_defendants'] = inmate_profile_span[4].text.strip().splitlines()[1]
+					inmate_details['Co_defendants'] = inmate_profile_span[4].text.encode('utf-8').strip().splitlines()[1]
 				except IndexError:
 					inmate_details['Co_defendants'] = "no info"
 
 				try:
-					inmate_details['Race_and_gender_of_victim'] = inmate_profile_span[5].text.strip().splitlines()[1]
+					inmate_details['Race_and_gender_of_victim'] = inmate_profile_span[5].text.encode('utf-8').strip().splitlines()[1]
 				except IndexError:
 					inmate_details['Race_and_gender_of_victim'] = "no info"
 
@@ -113,17 +111,17 @@ for inmate_link in inmates_links[:6]:
 
 				#Info from span elements
 				try: 
-					inmate_details['Date_of_execution'] = inmate_profile_span[2].text.strip()
+					inmate_details['Date_of_execution'] = inmate_profile_span[2].text.encode('utf-8').strip()
 				except IndexError:
 					inmate_details['Date_of_execution'] = "no info"
 
 				try: 
-					inmate_details['Offender'] = inmate_profile_span[4].text.strip()
+					inmate_details['Offender'] = inmate_profile_span[4].text.encode('utf-8').strip()
 				except IndexError:
 					inmate_details['Offender'] = "no info"
 
 				try:
-					inmate_details['Last_statement'] = inmate_profile_span[6].text.strip()
+					inmate_details['Last_statement'] = inmate_profile_span[6].text.encode('utf-8').strip()
 				except IndexError:
 					inmate_details['Last_statement'] = 'no info'
 
@@ -132,7 +130,7 @@ for inmate_link in inmates_links[:6]:
 				print "Can't read this: " + secondLink
 
 	with open("inmates_info.json", "a") as json_file:
-			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True)
+			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
 
 print "All done writing to file"
 
