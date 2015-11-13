@@ -1,3 +1,5 @@
+#THIS IS 
+
 from bs4 import BeautifulSoup
 import requests
 import time
@@ -100,7 +102,7 @@ for inmate_link in inmates_links[:6]:
 
 			except:
 				#sometimes the information is in jpg format
-				print "Can't read this " + firstLink
+				print "Can't read this: " + firstLink
 
 	if secondLink:
 			try:
@@ -127,10 +129,10 @@ for inmate_link in inmates_links[:6]:
 
 				time.sleep(1)
 			except:
-				print "Can't read this " + secondLink
+				print "Can't read this: " + secondLink
 
 	with open("inmates_info.json", "a") as json_file:
-			json.dump(inmate_details, json_file, sort_keys = True, indent = 4)
+			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True)
 
 print "All done writing to file"
 
