@@ -3,7 +3,9 @@ import requests
 import time
 import json
 
-# Special thanks to Matthew Phillips (https://gist.github.com/phillipsm/404780e419c49a5b62a8) for the help
+############################################################################################################
+# Special thanks to Matthew Phillips (https://gist.github.com/phillipsm/404780e419c49a5b62a8) for the help #
+############################################################################################################
 
 url_to_scrape = "https://www.tdcj.state.tx.us/death_row/dr_executed_offenders.html"
 
