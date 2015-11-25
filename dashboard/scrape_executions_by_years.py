@@ -13,6 +13,8 @@ r = requests.get(url_to_scrape)
 
 soup = BeautifulSoup(r.text)
 
+totalExecutionsByYear = []
+
 for table_row in soup.select(".os tr"):
 
 	year_static = {}
@@ -30,10 +32,10 @@ for table_row in soup.select(".os tr"):
 				year_static['Other'] = table_cells[6].text.encode('utf-8').strip()
 				year_static['Total'] = table_cells[8].text.encode('utf-8').strip()
 
-	#print year_static
+	totalExecutionsByYear.append(year_static)
 
-	with open("executions_by_year.json", "a") as json_file:
-			json.dump(year_static, json_file, indent = 4, separators=(',', ': '), ensure_ascii=False)
+with open("executions_by_year.json", "a") as json_file:
+	json.dump(totalExecutionsByYear, json_file, indent = 4, separators=(',', ': '), ensure_ascii=False)
 
 print "All done writing to file"
 
