@@ -51,7 +51,9 @@ function dashboard(id, fData){
 			.on("mouseout", mouseout); // mouseout is defined below.
 
 		//Create the frequency labels above the rectangles.
-		bars.append("text").text(function(d){ return (d[1])})
+		bars.append("text").text(function(d){ 
+			return (d[1])
+		})
 			.attr("x", function(d){ return xScale(d[0])+xScale.rangeBand()/2; })
 			.attr("y", function(d){ return yScale(d[1])-5; })
 			.attr("text-anchor", "middle");
@@ -91,7 +93,9 @@ function dashboard(id, fData){
 
 			// transition the frequency labels location and change value.
 			bars.select("text").transition().duration(500)
-				.text(function(d){ return d[1]})
+				.text(function(d){		//only returns the number if it is more than zero
+					if(d[1] > 0){return d[1]}
+				})
 				.attr("y", function(d) {return yScale(d[1])-5; });
 		}
 		return hG;
@@ -99,7 +103,7 @@ function dashboard(id, fData){
 
 	//function to handle the piechart
 	function pieChart(pD){
-		var pC = {};
+		var createPieChart = {};
 		var pieDim = {w:250, h: 250};
 		pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
 				
@@ -122,7 +126,7 @@ function dashboard(id, fData){
 			.on("mouseover",mouseover).on("mouseout",mouseout);
 
 		// create function to update pie-chart. This will be used by histogram.
-		pC.update = function(nD){
+		createPieChart.update = function(nD){
 			piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
 				.attrTween("d", arcTween);
 		}
@@ -145,18 +149,18 @@ function dashboard(id, fData){
 			this._current = i(0);
 			return function(t) { return arc(i(t)); };
 		}
-		return pC;
+		return createPieChart;
 	}
 
 	// function to handle legend.
 	function legend(lD){
-		var leg = {};
+		var createLegend = {};
 
 		// create table for legend.
 		var legend = d3.select(id).append("table").attr('class','legend');
 
 		// create one row per segment.
-		var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
+		var tr = legend.append("tbody").classed("js-legend-table", true).selectAll("tr").data(lD).enter().append("tr");
 			
 		// create the first column for each segment.
 		tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
@@ -172,10 +176,26 @@ function dashboard(id, fData){
 
 		// create the fourth column for each segment.
 		tr.append("td").attr("class",'legendPerc')
-			.text(function(d){ return getLegend(d,lD);});
+			.text(function(d){ return getPercentLegend(d,lD);});
+
+		//create table footer for total count and total percentage
+		var tableFooter = d3.select(".js-legend-table").append("tr");
+		//first column, this will change to something nicer
+		tableFooter.append("td").text(function(d){ return "" });
+		//second column this is the header for total
+		tableFooter.append("td").text(function(d){ return "Total: " });
+		//third column sum of all count
+		tableFooter.append("td").attr("class", 'js-legend-table-sum').text(function(d){ 
+			return d3.sum(lD, function(d){return d.freq}) 
+		});
+		//fourth column sum og whole percent, this should always be 100%
+		tableFooter.append("td").text(function(d){ 
+			return  
+		});
 
 		// Utility function to be used to update the legend.
-		leg.update = function(nD){
+		createLegend.update = function(nD){
+
 			// update the data attached to the row elements.
 			var l = legend.select("tbody").selectAll("tr").data(nD);
 
@@ -183,14 +203,19 @@ function dashboard(id, fData){
 			l.select(".legendFreq").text(function(d){ return d.freq;});
 
 			// update the percentage column.
-			l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});
+			l.select(".legendPerc").text(function(d){ return getPercentLegend(d,nD);});
+
+			//update the count for each year
+			d3.select(".js-legend-table-sum").text(function(d){
+				return d3.sum(nD, function(d){return d.freq});
+			});
 		}
-		
-		function getLegend(d,aD){ // Utility function to compute percentage.
+
+		function getPercentLegend(d,aD){ // Utility function to compute percentage.
 			return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
 		}
 
-		return leg;
+		return createLegend;
 	}
 
 	// calculate total frequency by segment for all year.

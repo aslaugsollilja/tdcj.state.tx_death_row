@@ -37,7 +37,7 @@ for table_row in soup.select(".os tr"):
 
 all_executed_offenders_Texas = []
 
-for inmate_link in inmates_links[:6]:
+for inmate_link in inmates_links:
 
 	# put the details in dictionary
 	inmate_details = {}
