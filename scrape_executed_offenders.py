@@ -46,7 +46,6 @@ for inmate_link in inmates_links[:2]:
 	firstLink = inmate_link[1]
 	secondLink = inmate_link[2]
 
-	
 
 	if firstLink:
 			try:
@@ -139,8 +138,8 @@ for inmate_link in inmates_links[:2]:
 			except:
 				print "Can't read this: " + secondLink
 
-	#with open("inmates_info.json", "a") as json_file:
-	#		json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
-	print inmate_details
+	with open("inmates_info.json", "a") as json_file:
+			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
+
 print "All done writing to file"
 
