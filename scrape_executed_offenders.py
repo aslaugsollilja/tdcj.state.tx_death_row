@@ -47,102 +47,107 @@ for inmate_link in inmates_links:
 	firstLink = inmate_link[1]
 	secondLink = inmate_link[2]
 
-
 	if firstLink:
-			try:
-				r = requests.get(firstLink)
-				soup = BeautifulSoup(r.text)
+			if "jpg" not in firstLink:
 
-				inmate_profile_rows = soup.select(".tabledata_deathrow_table tr")
+					r = requests.get(firstLink)
+					soup = BeautifulSoup(r.text)
 
-				inmate_profile_span = soup.select("p")
+					inmate_profile_rows = soup.select(".tabledata_deathrow_table tr")
 
-				inmate_photo = "https://www.tdcj.state.tx.us/death_row/dr_info/"
+					inmate_profile_span = soup.select("p")
 
+					inmate_photo = "https://www.tdcj.state.tx.us/death_row/dr_info/"
 
-				#Info from td elements
-				inmate_details['Photo'] = inmate_photo + inmate_profile_rows[0].findAll('td')[0].find('img')['src']
-				inmate_details['Name'] = inmate_profile_rows[0].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['TDCJ_Number'] = inmate_profile_rows[1].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Date_of_birth'] = inmate_profile_rows[2].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Date_received'] = inmate_profile_rows[3].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Age_when_received'] = inmate_profile_rows[4].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Education_level'] = inmate_profile_rows[5].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Date_of_offence'] = inmate_profile_rows[6].findAll('td')[1].text.encode('utf-8').strip()
-				inmate_details['Age_of_offence'] = inmate_profile_rows[7].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['County'] = inmate_profile_rows[8].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Race'] = inmate_profile_rows[9].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Gender'] = inmate_profile_rows[10].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Hair_color'] = inmate_profile_rows[11].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Height'] = inmate_profile_rows[12].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Weight'] = inmate_profile_rows[13].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Eye_color'] = inmate_profile_rows[14].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Native_county'] = inmate_profile_rows[15].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Native_state'] = inmate_profile_rows[16].findAll('td')[2].text.encode('utf-8').strip()
-				
-				#Info from span elements
-				try: 
-					inmate_details['Prior_occupation'] = inmate_profile_span[1].text.encode('utf-8').strip().splitlines()[1]
-				except IndexError:
-					inmate_details['Prior_occupation'] = "no info"
+					#Info from td elements
+					try:
+						inmate_details['Photo'] = inmate_photo + inmate_profile_rows[0].findAll('td')[0].find('img')['src']
+					except:
+						inmate_details['Photo'] = "Photo not available"
+					inmate_details['Name'] = inmate_profile_rows[0].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['TDCJ_Number'] = inmate_profile_rows[1].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Date_of_birth'] = inmate_profile_rows[2].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Date_received'] = inmate_profile_rows[3].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Age_when_received'] = inmate_profile_rows[4].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Education_level'] = inmate_profile_rows[5].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Date_of_offence'] = inmate_profile_rows[6].findAll('td')[1].text.encode('utf-8').strip()
+					inmate_details['Age_of_offence'] = inmate_profile_rows[7].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['County'] = inmate_profile_rows[8].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Race'] = inmate_profile_rows[9].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Gender'] = inmate_profile_rows[10].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Hair_color'] = inmate_profile_rows[11].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Height'] = inmate_profile_rows[12].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Weight'] = inmate_profile_rows[13].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Eye_color'] = inmate_profile_rows[14].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Native_county'] = inmate_profile_rows[15].findAll('td')[2].text.encode('utf-8').strip()
+					inmate_details['Native_state'] = inmate_profile_rows[16].findAll('td')[2].text.encode('utf-8').strip()
+					
+					#Info from span elements
+					try: 
+						inmate_details['Prior_occupation'] = inmate_profile_span[1].text.encode('utf-8').strip().splitlines()[1]
+					except IndexError:
+						inmate_details['Prior_occupation'] = "no info"
 
-				try:
-					inmate_details['Prior_prision_record'] = inmate_profile_span[2].text.encode('utf-8').strip().splitlines()[1]
-				except IndexError:
-					inmate_details['Prior_prision_record'] = 'no info'
+					try:
+						inmate_details['Prior_prision_record'] = inmate_profile_span[2].text.encode('utf-8').strip().splitlines()[1]
+					except IndexError:
+						inmate_details['Prior_prision_record'] = 'no info'
 
-				try:
-					inmate_details['Summary_of_incedent'] = inmate_profile_span[3].text.encode('utf-8').strip().splitlines()[1]
-				except IndexError:
-					inmate_details['Summary_of_incedent'] = 'no info'
+					try:
+						inmate_details['Summary_of_incedent'] = inmate_profile_span[3].text.encode('utf-8').strip().splitlines()[1]
+					except IndexError:
+						inmate_details['Summary_of_incedent'] = 'no info'
 
-				try:
-					inmate_details['Co_defendants'] = inmate_profile_span[4].text.encode('utf-8').strip().splitlines()[1]
-				except IndexError:
-					inmate_details['Co_defendants'] = "no info"
+					try:
+						inmate_details['Co_defendants'] = inmate_profile_span[4].text.encode('utf-8').strip().splitlines()[1]
+					except IndexError:
+						inmate_details['Co_defendants'] = "no info"
 
-				try:
-					inmate_details['Race_and_gender_of_victim'] = inmate_profile_span[5].text.encode('utf-8').strip().splitlines()[1]
-				except IndexError:
-					inmate_details['Race_and_gender_of_victim'] = "no info"
+					try:
+						inmate_details['Race_and_gender_of_victim'] = inmate_profile_span[5].text.encode('utf-8').strip().splitlines()[1]
+					except IndexError:
+						inmate_details['Race_and_gender_of_victim'] = "no info"
 
-				time.sleep(1)
-
-			except:
+			else:
 				#sometimes the information is in jpg format
 				print "Can't read this: " + firstLink
 				inmate_details["Can't be read"] = firstLink
 
+			time.sleep(1)
+
 	if secondLink:
-			try:
-				r = requests.get(secondLink)
-				soup = BeautifulSoup(r.text)
+			if "jpg" not in secondLink:
+					r = requests.get(secondLink)
+					soup = BeautifulSoup(r.text)
 
-				inmate_profile_span = soup.select("p")
+					inmate_profile_span = soup.select("p")
 
-				#Info from span elements
-				try: 
-					inmate_details['Date_of_execution'] = inmate_profile_span[2].text.encode('utf-8').strip()
-				except IndexError:
-					inmate_details['Date_of_execution'] = "no info"
+					#Info from span elements
+					try: 
+						inmate_details['Date_of_execution'] = inmate_profile_span[2].text.encode('utf-8').strip()
+					except IndexError:
+						inmate_details['Date_of_execution'] = "no info"
 
-				try: 
-					inmate_details['Offender'] = inmate_profile_span[4].text.encode('utf-8').strip()
-				except IndexError:
-					inmate_details['Offender'] = "no info"
+					try: 
+						inmate_details['Offender'] = inmate_profile_span[4].text.encode('utf-8').strip()
+					except IndexError:
+						inmate_details['Offender'] = "no info"
 
-				try:
-					inmate_details['Last_statement'] = inmate_profile_span[6].text.encode('utf-8').strip()
-				except IndexError:
-					inmate_details['Last_statement'] = 'no info'
+					try:
+						inmate_details['Last_statement'] = inmate_profile_span[6].text.encode('utf-8').strip()
+					except IndexError:
+						inmate_details['Last_statement'] = 'no info'
 
-				time.sleep(1)
-			except:
+			else:
 				print "Can't read this: " + secondLink
 				inmate_details["Can't be read"] = secondLink
 
+			time.sleep(1)
+
 	all_executed_offenders_Texas.append(inmate_details)
 
+#print all_executed_offenders_Texas
+#json.dump has to be outside the loop because otherwise the array will write the first object, then the first and the second, then the first...os.fv.
 with open("inmates_info.json", "a") as json_file:
 	json.dump(all_executed_offenders_Texas, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
 
