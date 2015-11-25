@@ -35,8 +35,9 @@ for table_row in soup.select(".os tr"):
 		#append both links to be one tuple in the array
 		inmates_links.append([execution_number, absolute_link1, absolute_link2])
 
+all_executed_offenders_Texas = []
 
-for inmate_link in inmates_links[:2]:
+for inmate_link in inmates_links[:6]:
 
 	# put the details in dictionary
 	inmate_details = {}
@@ -110,6 +111,7 @@ for inmate_link in inmates_links[:2]:
 			except:
 				#sometimes the information is in jpg format
 				print "Can't read this: " + firstLink
+				inmate_details["Can't be read"] = firstLink
 
 	if secondLink:
 			try:
@@ -137,9 +139,12 @@ for inmate_link in inmates_links[:2]:
 				time.sleep(1)
 			except:
 				print "Can't read this: " + secondLink
+				inmate_details["Can't be read"] = secondLink
 
-	with open("inmates_info.json", "a") as json_file:
-			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
+	all_executed_offenders_Texas.append(inmate_details)
+
+with open("inmates_info.json", "a") as json_file:
+	json.dump(all_executed_offenders_Texas, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
 
 print "All done writing to file"
 
