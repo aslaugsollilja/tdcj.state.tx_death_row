@@ -18,8 +18,13 @@ soup = BeautifulSoup(r.text)
 inmates_links = []
 
 for table_row in soup.select(".os tr"):
+
 	table_cells = table_row.findAll("td")
 	if len(table_cells) > 0:
+
+		#find the execution number
+		execution_number = table_cells[0].text
+
 		#find link to details for each inmate
 		link_to_inmate_details = table_cells[1].find('a')['href']
 		absolute_link1 = url_to_offender_info + link_to_inmate_details
@@ -28,17 +33,20 @@ for table_row in soup.select(".os tr"):
 		link_to_inmate_last_statement = table_cells[2].find('a')['href']
 		absolute_link2 = url_to_offender_info + link_to_inmate_last_statement
 		#append both links to be one tuple in the array
-		inmates_links.append([absolute_link1, absolute_link2])
+		inmates_links.append([execution_number, absolute_link1, absolute_link2])
 
 
-for inmate_link in inmates_links[:6]:
+for inmate_link in inmates_links[:2]:
 
 	# put the details in dictionary
 	inmate_details = {}
 
-	#extract the links from the tuple
-	firstLink = inmate_link[0]
-	secondLink = inmate_link[1]
+	#extract the links from the array, list or what ever
+	inmate_details['Execution_number'] = inmate_link[0]
+	firstLink = inmate_link[1]
+	secondLink = inmate_link[2]
+
+	
 
 	if firstLink:
 			try:
@@ -55,7 +63,7 @@ for inmate_link in inmates_links[:6]:
 				#Info from td elements
 				inmate_details['Photo'] = inmate_photo + inmate_profile_rows[0].findAll('td')[0].find('img')['src']
 				inmate_details['Name'] = inmate_profile_rows[0].findAll('td')[2].text.encode('utf-8').strip()
-				inmate_details['Number'] = inmate_profile_rows[1].findAll('td')[1].text.encode('utf-8').strip()
+				inmate_details['TDCJ_Number'] = inmate_profile_rows[1].findAll('td')[1].text.encode('utf-8').strip()
 				inmate_details['Date_of_birth'] = inmate_profile_rows[2].findAll('td')[1].text.encode('utf-8').strip()
 				inmate_details['Date_received'] = inmate_profile_rows[3].findAll('td')[1].text.encode('utf-8').strip()
 				inmate_details['Age_when_received'] = inmate_profile_rows[4].findAll('td')[1].text.encode('utf-8').strip()
@@ -131,8 +139,8 @@ for inmate_link in inmates_links[:6]:
 			except:
 				print "Can't read this: " + secondLink
 
-	with open("inmates_info.json", "a") as json_file:
-			json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
-
+	#with open("inmates_info.json", "a") as json_file:
+	#		json.dump(inmate_details, json_file, indent = 4, separators=(',', ': '), sort_keys = True, ensure_ascii=False)
+	print inmate_details
 print "All done writing to file"
 
