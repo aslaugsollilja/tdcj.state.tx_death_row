@@ -1,13 +1,14 @@
+
 body{
 	width:1060px;
 	margin:50px auto;
 }
 path {  stroke: #fff; }
-path:hover {  opacity:0.9; }
-rect:hover {  fill:#CD0000; }
+path:hover { opacity:0.9; }
+rect:hover { fill:#CD0000; }
 .axis {  font: 10px sans-serif; }
-.legend tr{    border-bottom:1px solid grey; }
-.legend tr:first-child{    border-top:1px solid grey; }
+.legend tr{ border-bottom:1px solid grey; }
+.legend tr:first-child{ border-top:1px solid grey; }
 
 .axis path,
 .axis line {
@@ -16,7 +17,7 @@ rect:hover {  fill:#CD0000; }
 	shape-rendering: crispEdges;
 }
 
-.x.axis path {  display: none; }
+.x.axis path { display: none; }
 .legend{
 	margin-bottom:76px;
 	display:inline-block;
@@ -30,4 +31,9 @@ rect:hover {  fill:#CD0000; }
 .legendFreq, .legendPerc{
 	align:right;
 	width:50px;
+}
+
+.pieChart{
+	margin-right: 76px;
+	margin-left: 54px;
 }
